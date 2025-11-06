@@ -1,0 +1,78 @@
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(1200px 800px at 50% 20%, rgba(0,255,136,0.08), transparent),
+              #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  opacity: 1;
+  transition: opacity 420ms ease;
+}
+
+.loading-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 28px 32px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  user-select: none;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.loading-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 56px rgba(0,0,0,0.6);
+}
+
+.spinner {
+  display: grid;
+  place-items: center;
+  width: 104px;
+  height: 104px;
+  border-radius: 999px;
+  background:
+    radial-gradient(closest-side, rgba(0,255,136,0.15), transparent 70%),
+    conic-gradient(from 0deg, rgba(0,255,136,0.35), rgba(0,255,136,0.05));
+  animation: spin 2.4s linear infinite;
+  transition: transform 420ms ease, filter 420ms ease, opacity 420ms ease;
+}
+
+.spinner.reverse { animation-direction: reverse; }
+.spinner.boost   { animation-duration: 1.2s; }
+
+.loading-text {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+  color: #e7ffe7;
+}
+
+.loading-subtext {
+  font-weight: 500;
+  font-size: 13px;
+  color: #9fe9c6;
+}
+
+.loading-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-overlay.fade-out .spinner {
+  transform: scale(0.9) rotate(-10deg);
+  filter: blur(2px);
+  opacity: 0.6;
+}
+
+

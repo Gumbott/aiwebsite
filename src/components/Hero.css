@@ -1,0 +1,145 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  padding-top: 80px;
+  padding-bottom: 4rem;
+}
+
+.hero-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.hero-content {
+  max-width: 700px;
+}
+
+.hero-category {
+  color: #00ff88;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  letter-spacing: -1px;
+}
+
+.hero-description {
+  font-size: 1.25rem;
+  color: #cccccc;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.hero-tagline {
+  color: #00ff88;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 2.5rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-button {
+  padding: 0.875rem 2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid #ffffff;
+  background: transparent;
+  color: #ffffff;
+}
+
+.hero-button.primary {
+  background-color: #00ff88;
+  color: #000000;
+  border-color: #00ff88;
+}
+
+.hero-button.primary:hover {
+  background-color: #00cc6f;
+  border-color: #00cc6f;
+  transform: translateY(-2px);
+}
+
+.hero-button.secondary:hover {
+  background-color: #ffffff;
+  color: #000000;
+  transform: translateY(-2px);
+}
+
+.hero-features {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-description {
+    font-size: 1.125rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .hero-button {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding-top: 100px;
+    padding-bottom: 2rem;
+  }
+
+  .hero-container {
+    padding: 0 1rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .hero-features {
+    gap: 1rem;
+  }
+
+  .feature-item {
+    font-size: 0.9rem;
+  }
+}
