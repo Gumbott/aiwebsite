@@ -1,7 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Contact.css';
+import { submitForm } from '../formHandler';
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    console.log('Submitting form data:', formData);
+    
+    try {
+      const result = await submitForm(formData);
+      if (result.success) {
+        // Reset form on success
+        setFormData({
+          name: '',
+          email: '',
+          company: '',
+          message: ''
+        });
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section id="contact" className="contact">
       <div className="contact-container">
@@ -26,7 +66,7 @@ const Contact = () => {
             </div>
           </div>
           <div className="contact-form-container">
-            <form className="contact-form">
+            <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="name" className="form-label">Name</label>
                 <input
@@ -34,6 +74,9 @@ const Contact = () => {
                   id="name"
                   className="form-input"
                   placeholder="Your full name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
                 />
               </div>
               <div className="form-group">
@@ -43,6 +86,9 @@ const Contact = () => {
                   id="email"
                   className="form-input"
                   placeholder="your.email@company.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
                 />
               </div>
               <div className="form-group">
@@ -52,6 +98,9 @@ const Contact = () => {
                   id="company"
                   className="form-input"
                   placeholder="Your company name"
+                  value={formData.company}
+                  onChange={handleChange}
+                  required
                 />
               </div>
               <div className="form-group">
@@ -61,10 +110,17 @@ const Contact = () => {
                   className="form-textarea"
                   placeholder="What tasks would you like your AI robots to handle?"
                   rows="4"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
                 ></textarea>
               </div>
-              <button type="submit" className="form-submit">
-                Send Message
+              <button 
+                type="submit" 
+                className="form-submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </div>

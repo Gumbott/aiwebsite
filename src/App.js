@@ -7,6 +7,7 @@ import Credentials from './components/Credentials';
 import Contact from './components/Contact';
 import ChatBox from './components/ChatBox';
 import LoadingOverlay from './components/LoadingOverlay';
+import { testFirestore } from './formHandler';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,6 +17,11 @@ function App() {
   useEffect(() => {
     const minimumDisplayMs = 2500; // ensure the overlay is visible long enough
     const mountedAt = Date.now();
+
+    // Test Firestore connection
+    testFirestore().then(success => {
+      console.log('Firestore connection test:', success ? 'Successful' : 'Failed');
+    });
 
     const finishAfterMinimum = () => {
       const elapsed = Date.now() - mountedAt;

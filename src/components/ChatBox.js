@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './ChatBox.css';
 import RobotLogo from './RobotLogo';
+import { askAI } from '../chatHandler';
 
 const ChatBox = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +30,7 @@ const ChatBox = () => {
     }
   }, [isOpen]);
 
-  const handleSend = (e) => {
+  const handleSend = async (e) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
@@ -42,15 +43,24 @@ const ChatBox = () => {
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
 
-    // Simulate bot response (this will be replaced with actual API call later)
-    setTimeout(() => {
+    try {
+      // Get AI response
+      const response = await askAI(inputValue);
       const botResponse = {
-        text: "That's a great question! I'd love to help you explore how AI automation can benefit your specific business needs. Could you tell me more about your industry or the tasks you'd like to automate?",
+        text: response.answer,
+        sender: 'bot',
+        timestamp: response.timestamp || new Date()
+      };
+      setMessages(prev => [...prev, botResponse]);
+    } catch (error) {
+      console.error('Error getting AI response:', error);
+      const errorResponse = {
+        text: "I apologize, but I'm having trouble processing your request right now. Please try again in a moment.",
         sender: 'bot',
         timestamp: new Date()
       };
-      setMessages(prev => [...prev, botResponse]);
-    }, 1000);
+      setMessages(prev => [...prev, errorResponse]);
+    }
   };
 
   const quickQuestions = [
@@ -60,25 +70,32 @@ const ChatBox = () => {
     "Book a consultation"
   ];
 
-  const handleQuickQuestion = (question) => {
+  const handleQuickQuestion = async (question) => {
     setInputValue(question);
-    setTimeout(() => {
-      const userMessage = {
-        text: question,
-        sender: 'user',
+    const userMessage = {
+      text: question,
+      sender: 'user',
+      timestamp: new Date()
+    };
+    setMessages(prev => [...prev, userMessage]);
+
+    try {
+      const response = await askAI(question);
+      const botResponse = {
+        text: response.answer,
+        sender: 'bot',
+        timestamp: response.timestamp || new Date()
+      };
+      setMessages(prev => [...prev, botResponse]);
+    } catch (error) {
+      console.error('Error getting AI response:', error);
+      const errorResponse = {
+        text: "I apologize, but I'm having trouble processing your request right now. Please try again in a moment.",
+        sender: 'bot',
         timestamp: new Date()
       };
-      setMessages(prev => [...prev, userMessage]);
-
-      setTimeout(() => {
-        const botResponse = {
-          text: "Great question! Let me connect you with our team for more details. In the meantime, I can tell you that our AI agents are designed to handle repetitive tasks, streamline workflows, and integrate seamlessly with your existing systems. Would you like to schedule a free consultation?",
-          sender: 'bot',
-          timestamp: new Date()
-        };
-        setMessages(prev => [...prev, botResponse]);
-      }, 1000);
-    }, 100);
+      setMessages(prev => [...prev, errorResponse]);
+    }
   };
 
   return (
